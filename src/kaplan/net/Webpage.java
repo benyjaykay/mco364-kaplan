@@ -13,11 +13,13 @@ import org.apache.commons.io.IOUtils;
 
 public class Webpage {
 	private String html;
+	private String text;
 	private String url;
 	private String anchor;
 	private String anchorUrl;
 	private final Pattern anchorPattern = Pattern
 			.compile("<a .*?href=\"(.*?)\"");
+	private final Pattern javaScriptPattern = Pattern.compile("^(<script .*?>).*(</script>)?");
 	private ArrayList<String> linkList;
 
 	public Webpage(String url) {
@@ -51,12 +53,20 @@ public class Webpage {
 		linkList = new ArrayList<String>();
 		while (anchorMatcher.find()) {
 			anchor = anchorMatcher.group(1);
-			if (anchor.charAt(0) == '/')
+			if (anchor.charAt(0) == '/'){
 				anchorUrl = url + anchor;
-			else
+				linkList.add(anchorUrl);
+			}
+			else if(anchor.startsWith("http://www.touro.edu")){
 				anchorUrl = anchor;
-
-			linkList.add(anchorUrl);
+				linkList.add(anchorUrl);
+			}
+			else if(anchor.startsWith("http://touro.edu")){
+				anchorUrl = anchor;
+				linkList.add(anchorUrl);
+			}
+			else
+			continue;
 		}
 		return linkList;
 	}
@@ -72,4 +82,16 @@ public class Webpage {
 	public Pattern getAnchorPattern() {
 		return anchorPattern;
 	}
+	public void setText() throws IOException{
+		setHtml();
+		
+		text = getHtml().replaceAll("\\<.*?>","");
+	}
+	public String getText() throws IOException{
+		setText();
+		return text;
+	}
+	
+	
+	
 }
