@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import org.apache.commons.io.IOUtils;
+
 public class DictionaryLoader {
 	private Scanner sc;
 	private ArrayList<String> arrDictList;
@@ -13,6 +15,7 @@ public class DictionaryLoader {
 	public DictionaryLoader() throws FileNotFoundException {
 		sc = new Scanner(new File("word_list_moby_crossword_flat.txt"));
 		arrDictList = new ArrayList<String>();
+		IOUtils.readLines(input);
 		while (sc.hasNext()) {
 			arrDictList.add(sc.next());
 		}
