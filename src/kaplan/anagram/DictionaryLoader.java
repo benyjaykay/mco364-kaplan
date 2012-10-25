@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class DictionaryLoader {
 	private List<String> arrDictList = new ArrayList<String>();
@@ -37,22 +40,20 @@ public class DictionaryLoader {
 			 return false;
 	}
 	public boolean containsHash(String word){
-		HashMap hm = new HashMap(); 
+		HashMap<String, String> hm = new HashMap(); 
 		// Put elements to the map 
+		hm.putAll((Map) arrDictList);
 		Scanner scan;
-		try {
-			scan = new Scanner(file);
-			while (scan.hasNextLine())
-	        {
-	            String line = scan.nextLine();
-	            hm.put(line,line);
-	        }
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
 		if(hm.containsValue(word))return true;
 		return false;
+	}
+	public boolean randomSequentialHits(){
+		for(int i = 0; i<1000;i++){
+			Random random = new Random();
+			String randomWord = arrDictList.get(random.nextInt(1)+1000)
+			String randomWord = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random));
+			System.out.println(randomString);
+			System.out.println(dictLoader.contains(randomString));
+		}
 	}
 }
