@@ -43,17 +43,8 @@ public class DictionaryLoader {
 		HashMap<String, String> hm = new HashMap(); 
 		// Put elements to the map 
 		hm.putAll((Map) arrDictList);
-		Scanner scan;
 		if(hm.containsValue(word))return true;
 		return false;
 	}
-	public boolean randomSequentialHits(){
-		for(int i = 0; i<1000;i++){
-			Random random = new Random();
-			String randomWord = arrDictList.get(random.nextInt(1)+1000)
-			String randomWord = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random));
-			System.out.println(randomString);
-			System.out.println(dictLoader.contains(randomString));
-		}
-	}
+	
 }
