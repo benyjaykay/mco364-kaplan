@@ -34,13 +34,37 @@ public class DictLoaderTest extends TestCase {
 		assertTrue(dictLoader.containsBinary("word"));
 		assertFalse(dictLoader.containsBinary("zzomfmfmf"));
 	}
-	public void testThousandRandomSequentialHits() throws FileNotFoundException{
+	public void testThousandRandomSequentialMisses() throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader(); 
+		Clock sequentialClock = new Clock();
 		for(int i = 0; i<1000;i++){
 			Random random = new Random();
 			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random));
-			System.out.println(randomString);
-			System.out.println(dictLoader.contains(randomString));
+			//System.out.println(randomString);
+			assertFalse(dictLoader.contains(randomString));
 		}
+		System.out.println(sequentialClock.tick());
+	}
+	public void testMillionRandomBinaryMisses() throws FileNotFoundException{
+		DictionaryLoader dictLoader = new DictionaryLoader();
+		Clock binaryClock = new Clock();
+		for(int i = 0;i<1000000;i++){
+			Random random = new Random();
+			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random)).toLowerCase();
+			//System.out.println(randomString);
+			assertFalse(dictLoader.containsBinary(randomString));
+		}
+		System.out.println(binaryClock.tick());
+	}
+	public void testMillionRandomHashmapMisses()throws FileNotFoundException{
+		DictionaryLoader dictLoader = new DictionaryLoader();
+		Clock hashClock = new Clock();
+		for(int i = 0;i<1000000;i++){
+			Random random = new Random();
+			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random)).toLowerCase();
+			System.out.println(randomString);
+			assertFalse(dictLoader.containsHash(randomString));
+		}
+		System.out.println(hashClock.tick());
 	}
 }
