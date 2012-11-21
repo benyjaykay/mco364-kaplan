@@ -31,8 +31,10 @@ public class DictLoaderTest extends TestCase {
 	}
 	public void testHashMapSearch() throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader();
-		assertTrue(dictLoader.containsBinary("word"));
-		assertFalse(dictLoader.containsBinary("zzomfmfmf"));
+		assertTrue(dictLoader.containsHash("word"));
+		assertFalse(dictLoader.containsHash("zzomfmfmf"));
+		assertTrue(dictLoader.containsHash("man"));
+		assertFalse(dictLoader.contains("jdjdjdfjglgl"));
 	}
 	public void testThousandRandomSequentialMisses() throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader(); 

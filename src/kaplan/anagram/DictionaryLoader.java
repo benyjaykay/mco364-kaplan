@@ -42,7 +42,7 @@ public class DictionaryLoader {
 	public boolean containsHash(String word){
 		HashMap<String, String> hm = new HashMap(); 
 		// Put elements to the map 
-		hm.putAll((Map) arrDictList);
+		hm.putAll((Map<String, String>) arrDictList);
 		if(hm.containsValue(word))return true;
 		return false;
 	}
