@@ -8,17 +8,7 @@ import junit.framework.TestCase;
 
 public class DictLoaderTest extends TestCase {
 	
-	 private static int showRandomInteger(int aStart, int aEnd, Random aRandom){
-		    if ( aStart > aEnd ) {
-		      throw new IllegalArgumentException("Start cannot exceed End.");
-		    }
-		    //get the range, casting to long to avoid overflow problems
-		    long range = (long)aEnd - (long)aStart + 1;
-		    // compute a fraction of the range, 0 <= frac < range
-		    long fraction = (long)(range * aRandom.nextDouble());
-		    int randomNumber =  (int)(fraction + aStart);    
-		    return randomNumber;
-		  }
+	
 	public void testSequentialDictSearch() throws FileNotFoundException {
 		DictionaryLoader dictLoader = new DictionaryLoader();
 		assertTrue(dictLoader.contains("word"));
@@ -39,9 +29,9 @@ public class DictLoaderTest extends TestCase {
 	public void testThousandRandomSequentialMisses() throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader(); 
 		Clock sequentialClock = new Clock();
+		Random random = new Random();
 		for(int i = 0; i<1000;i++){
-			Random random = new Random();
-			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random));
+			String randomString = RandomStringUtils.randomAlphabetic(random.nextInt(5)+4);
 			//System.out.println(randomString);
 			assertFalse(dictLoader.contains(randomString));
 		}
@@ -50,9 +40,9 @@ public class DictLoaderTest extends TestCase {
 	public void testMillionRandomBinaryMisses() throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader();
 		Clock binaryClock = new Clock();
-		for(int i = 0;i<1000000;i++){
-			Random random = new Random();
-			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random)).toLowerCase();
+		Random random = new Random();
+		for(int i = 0;i<100;i++){
+			String randomString = RandomStringUtils.randomAlphabetic(random.nextInt(5)+4).toLowerCase();
 			//System.out.println(randomString);
 			assertFalse(dictLoader.containsBinary(randomString));
 		}
@@ -61,10 +51,10 @@ public class DictLoaderTest extends TestCase {
 	public void testMillionRandomHashmapMisses()throws FileNotFoundException{
 		DictionaryLoader dictLoader = new DictionaryLoader();
 		Clock hashClock = new Clock();
-		for(int i = 0;i<1000000;i++){
-			Random random = new Random();
-			String randomString = RandomStringUtils.randomAlphabetic(showRandomInteger(4,8,random)).toLowerCase();
-			System.out.println(randomString);
+		Random random = new Random();
+		for(int i = 0;i<100;i++){
+			String randomString = RandomStringUtils.randomAlphabetic(random.nextInt(5)+4).toLowerCase();
+			//System.out.println(randomString);
 			assertFalse(dictLoader.containsHash(randomString));
 		}
 		System.out.println(hashClock.tick());
