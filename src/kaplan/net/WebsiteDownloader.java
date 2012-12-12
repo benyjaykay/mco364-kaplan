@@ -20,6 +20,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 public class WebsiteDownloader extends Thread {
+	
 	private String website;
 	private final Pattern anchorPattern = Pattern
 			.compile("<a .*?href=\"(.*?)\"");
@@ -33,10 +34,14 @@ public class WebsiteDownloader extends Thread {
 		byte[] thedigest = md.digest(bytesOfMessage);
 		BigInteger bigInt = new BigInteger(1, thedigest);
 		String filer = bigInt.toString(16);
+		File file = new File("files//"
+				+ filer + ".txt");
+		if(!file.exists()){
 		BufferedWriter out = new BufferedWriter(new FileWriter("files//"
 				+ filer + ".txt"));
 		out.write(webpage);
 		out.close();
+		}
 	}
 
 	public void run() {
