@@ -57,10 +57,14 @@ public class WebsiteDownloader extends Thread {
 			
 			Matcher anchorMatcher = anchorPattern.matcher(webpage);
 			String anchor;
+			String anchorUrl;
 			WebsiteDownloader wd;
 			while (anchorMatcher.find()) {
 				anchor = anchorMatcher.group(1);
-				String anchorUrl = website + anchor;
+				if(anchor.charAt(0)== '/')
+				 anchorUrl = website + anchor;
+				else
+					anchorUrl = anchor;
 				wd = new WebsiteDownloader(anchorUrl);
 				wd.start();
 			}
