@@ -5,13 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Repository {
 	private File file;
-
+public Repository(){
+	
+}
 	public File getFile() {
 		return file;
 	}

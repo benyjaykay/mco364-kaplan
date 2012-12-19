@@ -1,16 +1,13 @@
 package kaplan.net;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+
+
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.IOUtils;
-
 public class Webpage {
  private String html;
  private URL url;
@@ -19,11 +16,17 @@ public class Webpage {
  private final Pattern anchorPattern = Pattern
 			.compile("<a .*?href=\"(.*?)\"");
  private List<URL> linkList;
+ public Webpage(URL url){
+	 this.setUrl(url);
+ }
  public String getHtml(){
 	 return html;
  }
  public void setHtml(String html){
 	 	this.html = html;
+ }
+ public void setUrl(URL url){
+	 this.setUrl(url);
  }
  public URL getUrl(){
 	 return url;
