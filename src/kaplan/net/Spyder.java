@@ -1,21 +1,34 @@
 package kaplan.net;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class Spyder {
 
 	/**
 	 * @param args
-	 * @throws MalformedURLException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws MalformedURLException {
-		// TODO Auto-generated method stub
-		Repository rp = new Repository();
-		URL url = new URL("http://www.touro.edu");
+	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
+		
+		
+		File file = new File("C:\\Users\\Benyjaykay\\Documents\\filing\\ \\");
+		Repository rp = new Repository(file);
+		rp.deleteCache();
+		String url = new String("http://www.touro.edu");
 		Webpage wp = new Webpage(url);
+		rp.save(wp);
+		System.out.println(rp.isCached(url));
 		WorkerThread wt = new WorkerThread(wp, rp);
 		wt.start();
+		
+		
 	}
 
 }
