@@ -1,57 +1,91 @@
 package kaplan.net;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 
 import junit.framework.TestCase;
+
 public class RepositoryTest extends TestCase {
 	private Repository rp;
 	private File file;
 	private String url;
-	public void testSave() throws NoSuchAlgorithmException, IOException{
+	private Webpage wp;
+
+	public void testSave() throws NoSuchAlgorithmException, IOException {
 		givenRepo();
 		whenSave();
 		thenFileExists();
 	}
-	public void givenRepo(){
-		 file = new File("C:\\Users\\Benyjaykay\\Documents\\Filing\\\\");
+
+	public void givenRepo() {
+		file = new File("/tmp");
 		rp = new Repository(file);
 	}
-	public void whenSave() throws NoSuchAlgorithmException, IOException{
+
+	public void whenSave() throws NoSuchAlgorithmException, IOException {
 		url = new String("http://www.touro.edu");
-		Webpage wp = new Webpage(url);
+		wp = new Webpage(url);
 		rp.save(wp);
 	}
-	public void thenFileExists(){
-		file = new File(rp.getDirectory() + "d29238a17e5594f5e7e8c76faadb8923.txt");
+
+	public void thenFileExists() {
+		file = new File(rp.getDirectory()
+				+ "d29238a17e5594f5e7e8c76faadb8923.txt");
 		assertTrue(file.exists());
 	}
-	public void testIsCached() throws NoSuchAlgorithmException, IOException{
+
+	public void testIsCached() throws NoSuchAlgorithmException, IOException {
+		givenRepo();
 		givenUrl();
 		thenUrlFileExists();
 	}
-	public void givenUrl(){
+
+	public void givenUrl() {
 		url = new String("http://www.touro.edu");
-		
 	}
-	public void thenUrlFileExists() throws UnsupportedEncodingException, NoSuchAlgorithmException, IOException{
-		
-		url = new String("http://www.touro.edu/");
-		System.out.println(rp.isCached(url));
-		rp.isCached(url);
-		
+
+	public void thenUrlFileExists() throws UnsupportedEncodingException,
+			NoSuchAlgorithmException, IOException {
+		wp = new Webpage("http://www.touro.edu");
+		assertTrue(rp.isCached(wp));
 	}
-	public void testDeleteCache() throws UnsupportedEncodingException, NoSuchAlgorithmException{
+
+	public void testRetrieve() throws NoSuchAlgorithmException, IOException {
+		givenRepo();
+		givenWebpage();
+		whenRetrieved();
+		thenFileEquals();
+	}
+
+	public void givenWebpage() {
+		wp = new Webpage("http://www.touro.edu");
+	}
+
+	public void whenRetrieved() throws NoSuchAlgorithmException, IOException {
+		file = rp.retrieve(wp);
+	}
+
+	public void thenFileEquals() {
+		assertEquals(file.getName(), "d29238a17e5594f5e7e8c76faadb8923.txt");
+	}
+
+	public void testDeleteCache() throws NoSuchAlgorithmException, IOException {
+		givenRepo();
+		givenWebpage();
 		whenDeleteCache();
 		thenFileDoesntExist();
 	}
-	public void whenDeleteCache(){
+
+	public void whenDeleteCache() throws IOException {
+		assertTrue(rp.getDirectory().exists());
 		rp.deleteCache();
 	}
-	public void thenFileDoesntExist() throws UnsupportedEncodingException, NoSuchAlgorithmException{
-		assertFalse(rp.isCached(url));
+
+	public void thenFileDoesntExist() throws UnsupportedEncodingException,
+			NoSuchAlgorithmException {
+		assertFalse(rp.getDirectory().exists());
 	}
+
 }

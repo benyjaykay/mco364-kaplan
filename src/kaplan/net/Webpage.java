@@ -1,14 +1,11 @@
 package kaplan.net;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,17 +30,17 @@ public class Webpage {
 
 	public void setHtml() throws IOException {
 		URL url = null;
-			url = new URL(getUrl());
-			HttpURLConnection connection = null;
-			connection = (HttpURLConnection) url.openConnection();
-			InputStream in = connection.getInputStream();
-			html = IOUtils.toString(in);
-			in.close();
+		url = new URL(getUrl());
+		HttpURLConnection connection = null;
+		connection = (HttpURLConnection) url.openConnection();
+		InputStream in = connection.getInputStream();
+		html = IOUtils.toString(in);
+		in.close();
 	}
 
-	public void setUrl(String url){
-	 this.url = url;
- }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getUrl() {
 		return url;
@@ -58,18 +55,20 @@ public class Webpage {
 				anchorUrl = url + anchor;
 			else
 				anchorUrl = anchor;
-			
+
 			linkList.add(anchorUrl);
 		}
 		return linkList;
 	}
 
-	public void setList() throws MalformedURLException{
+	public void setList() throws MalformedURLException {
 		linkList = extractLinks();
 	}
-	public ArrayList<String> getList(){
+
+	public ArrayList<String> getList() {
 		return linkList;
 	}
+
 	public Pattern getAnchorPattern() {
 		return anchorPattern;
 	}
