@@ -46,7 +46,7 @@ public class Repository {
 		BigInteger bigInt = new BigInteger(1, thedigest);
 		String filer = bigInt.toString(16);
 		System.out.println(filer);
-		setFile(new File(getDirectory() + filer + ".txt"));
+		setFile(new File(getDirectory() + "/" + filer + ".txt"));
 		return file.exists();
 	}
 
@@ -75,7 +75,7 @@ public class Repository {
 		byte[] thedigest = md.digest(bytesOfMessage);
 		BigInteger bigInt = new BigInteger(1, thedigest);
 		String filer = bigInt.toString(16);
-		String path = getDirectory() + filer + ".txt";
+		String path = getDirectory() + "/" + filer + ".txt";
 		BufferedReader in = new BufferedReader(new FileReader(path));
 		String line = null;
 		while ((line = in.readLine()) != null) {

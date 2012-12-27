@@ -20,7 +20,7 @@ public class RepositoryTest extends TestCase {
 	}
 
 	public void givenRepo() {
-		file = new File("/tmp");
+		file = new File("tmp/");
 		rp = new Repository(file);
 	}
 
@@ -31,7 +31,7 @@ public class RepositoryTest extends TestCase {
 	}
 
 	public void thenFileExists() {
-		file = new File(rp.getDirectory()
+		file = new File(rp.getDirectory() + "/"
 				+ "d29238a17e5594f5e7e8c76faadb8923.txt");
 		assertTrue(file.exists());
 	}
