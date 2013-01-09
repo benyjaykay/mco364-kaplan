@@ -15,6 +15,7 @@ public class RepositoryTest extends TestCase {
 
 	public void testSave() throws NoSuchAlgorithmException, IOException {
 		givenRepo();
+		thenFileExists();
 		whenSave();
 		thenFileExists();
 	}
@@ -86,6 +87,15 @@ public class RepositoryTest extends TestCase {
 	public void thenFileDoesntExist() throws UnsupportedEncodingException,
 			NoSuchAlgorithmException {
 		assertFalse(rp.getDirectory().exists());
+	}
+	@Before
+	public void setUp(){
+		file = new File("tmp/");
+		rp = new Repository(file);
+	}
+	@After
+	public void tearDown() throws IOException{
+		rp.deleteCache();
 	}
 
 }

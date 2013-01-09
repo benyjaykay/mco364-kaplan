@@ -31,7 +31,7 @@ public class WeppageTest extends TestCase {
 		int index = 0;
 		for (String link : listOfLinks) {
 			link = listOfLinks.get(index);
-			//System.out.println(link);
+			System.out.println(link);
 			index++;
 		}
 		assertEquals(wp.getList().get(0),
