@@ -18,20 +18,16 @@ public class Spyder {
 	public static void main(String[] args) throws NoSuchAlgorithmException,
 			IOException {
 
-		LinkedBlockingQueue<String> linkList = new LinkedBlockingQueue<String>();
 		
 		File file = new File("tmp/");
 		Repository rp = new Repository(file);
-		rp.deleteCache();
-		String url = new String("http://www.wikipedia.org");
-		Webpage wp = new Webpage(url);
-		rp.save(wp);
-		System.out.println(rp.isCached(wp));
+		LinkedBlockingQueue<String> linkList = new LinkedBlockingQueue<String>();
+		String url = "http://en.wikipedia.org/";
+		linkList.add(url);
 		WorkerThread wt = new WorkerThread(rp,linkList);
 		WorkerThread wt2 = new WorkerThread(rp, linkList);
 		WorkerThread wt3 = new WorkerThread(rp, linkList);
-		for(String link: wt.getListOfLinks())
-			linkList.add(link);
+		
 		
 		
 		wt.start();

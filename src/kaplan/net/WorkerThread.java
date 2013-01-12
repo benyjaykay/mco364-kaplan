@@ -12,7 +12,6 @@ public class WorkerThread extends Thread {
 	private Webpage wp;
 	private Repository repo;
 	private ArrayList<String> listOfLinks;
-	private WorkerThread wt;
 	private LinkedBlockingQueue<String> queue;
 
 	public WorkerThread(Repository rp, LinkedBlockingQueue<String> linkList) {
@@ -52,16 +51,19 @@ public class WorkerThread extends Thread {
 	public void run() {
 		String linko;
 		try {
-			listOfLinks = wp.extractLinks();
+
 			
 			while ((linko = queue.take()) != null) {
 				wp = new Webpage(linko);
+				wp.setHtml();
 				System.out.println(this.getId() + " " + linko);
-				wp.setText();
+				listOfLinks = wp.extractLinks();
+				for (String link : listOfLinks) {
+					if(!queue.contains(link))
+							queue.add(link);
+				}
+				wp.removeTags();
 				repo.save(wp);
-			}
-			for (String link : listOfLinks) {
-				queue.add(link);
 			}
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
