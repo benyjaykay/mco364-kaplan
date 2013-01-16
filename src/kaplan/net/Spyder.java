@@ -22,7 +22,8 @@ public class Spyder {
 		File file = new File("tmp/");
 		Repository rp = new Repository(file);
 		LinkedBlockingQueue<String> linkList = new LinkedBlockingQueue<String>();
-		String url = "http://en.wikipedia.org/";
+		linkList.clear();
+		String url = "http://en.wikipedia.org/wiki/Lionel_Messi";
 		linkList.add(url);
 		WorkerThread wt = new WorkerThread(rp,linkList);
 		WorkerThread wt2 = new WorkerThread(rp, linkList);

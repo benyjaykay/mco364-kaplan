@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
+import org.junit.After;
+import org.junit.Before;
+
 import junit.framework.TestCase;
 
 public class RepositoryTest extends TestCase {
@@ -15,7 +18,6 @@ public class RepositoryTest extends TestCase {
 
 	public void testSave() throws NoSuchAlgorithmException, IOException {
 		givenRepo();
-		thenFileExists();
 		whenSave();
 		thenFileExists();
 	}
@@ -39,7 +41,7 @@ public class RepositoryTest extends TestCase {
 
 	public void testIsCached() throws NoSuchAlgorithmException, IOException {
 		givenRepo();
-		givenUrl();
+		whenSave();
 		thenUrlFileExists();
 	}
 
@@ -56,6 +58,7 @@ public class RepositoryTest extends TestCase {
 	public void testRetrieve() throws NoSuchAlgorithmException, IOException {
 		givenRepo();
 		givenWebpage();
+		whenSave();
 		whenRetrieved();
 		thenFileEquals();
 	}
@@ -88,13 +91,15 @@ public class RepositoryTest extends TestCase {
 			NoSuchAlgorithmException {
 		assertFalse(rp.getDirectory().exists());
 	}
+
 	@Before
-	public void setUp(){
+	public void setUp() {
 		file = new File("tmp/");
 		rp = new Repository(file);
 	}
+
 	@After
-	public void tearDown() throws IOException{
+	public void tearDown() throws IOException {
 		rp.deleteCache();
 	}
 

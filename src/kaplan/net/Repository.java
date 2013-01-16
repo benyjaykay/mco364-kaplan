@@ -38,29 +38,26 @@ public class Repository {
 		this.file = file;
 	}
 
-	public boolean isCached(Webpage webpage)
-			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+	public void encryptBytes(Webpage webpage) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = webpage.getUrl().getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		byte[] thedigest = md.digest(bytesOfMessage);
 		BigInteger bigInt = new BigInteger(1, thedigest);
 		String filer = bigInt.toString(16);
-		System.out.println(filer);
 		setFile(new File(getDirectory() + "/" + filer + ".txt"));
+	}
+	public boolean isCached(Webpage webpage)
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		encryptBytes(webpage);
 		return file.exists();
 	}
 
 	public void save(Webpage webpage) throws IOException,
 			NoSuchAlgorithmException {
-		byte[] bytesOfMessage = webpage.getUrl().getBytes("UTF-8");
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		byte[] thedigest = md.digest(bytesOfMessage);
-		BigInteger bigInt = new BigInteger(1, thedigest);
-		String filer = bigInt.toString(16);
-		setFile(new File(getDirectory() + "/" + filer + ".txt"));
+		encryptBytes(webpage);
 		BufferedWriter out = new BufferedWriter(new FileWriter(getFile()));
-		webpage.setHtml();
-		out.write(webpage.getHtml());
+		webpage.removeTags();
+		out.write(webpage.getText());
 		out.close();
 	}
 

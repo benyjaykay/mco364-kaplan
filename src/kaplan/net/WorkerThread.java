@@ -3,7 +3,6 @@ package kaplan.net;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -55,7 +54,8 @@ public class WorkerThread extends Thread {
 			
 			while ((linko = queue.take()) != null) {
 				wp = new Webpage(linko);
-				wp.setHtml();
+				
+				
 				System.out.println(this.getId() + " " + linko);
 				listOfLinks = wp.extractLinks();
 				for (String link : listOfLinks) {

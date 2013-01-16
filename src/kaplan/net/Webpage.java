@@ -48,17 +48,18 @@ public class Webpage {
 		return url;
 	}
 
-	public ArrayList<String> extractLinks() throws MalformedURLException {
+	public ArrayList<String> extractLinks() throws IOException {
+		setHtml();
 		Matcher anchorMatcher = anchorPattern.matcher(html);
 		linkList = new ArrayList<String>();
 		while (anchorMatcher.find()) {
 			anchor = anchorMatcher.group(1);
-			
+		
 			 if(anchor.startsWith("http://en.wikipedia.org")){
 				linkList.add(anchor);
 			}
 			else if (anchor.charAt(0) == '/'){
-				anchorUrl = "http://en.wikipedia.org" + "/" + anchor;
+				anchorUrl = "http://en.wikipedia.org" + anchor;
 				linkList.add(anchorUrl);
 			}
 			else
@@ -67,7 +68,7 @@ public class Webpage {
 		return linkList;
 	}
 
-	public void setList() throws MalformedURLException {
+	public void setList() throws IOException {
 		linkList = extractLinks();
 	}
 
@@ -81,7 +82,11 @@ public class Webpage {
 	public void removeTags() throws IOException{
 		setHtml();
 		
-		text = getHtml().replaceAll("\\<.*?>","");
+		text = getHtml().replaceAll("<.*?>","");
+		
+	}
+	public void removeMessi() throws IOException{
+		text = getText().replaceAll("wiki/Lionel_Messi","");
 	}
 	public String getText() throws IOException{
 		removeTags();
