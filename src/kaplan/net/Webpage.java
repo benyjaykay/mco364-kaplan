@@ -19,7 +19,10 @@ public class Webpage {
 	private String anchorUrl;
 	private final Pattern anchorPattern = Pattern
 			.compile("<a .*?href=\"(.*?)\"");
-	private final Pattern javaScriptPattern = Pattern.compile("^(<script .*?>).*(</script>)?");
+	private final Pattern javascriptPattern = Pattern.compile("<script[^>]*>(.*?)</script>",Pattern.MULTILINE   
+			| Pattern.CASE_INSENSITIVE | Pattern.DOTALL); 	
+	private final Pattern htmlPattern = Pattern.compile("<.*?>",Pattern.MULTILINE   
+			| Pattern.CASE_INSENSITIVE | Pattern.DOTALL); 
 	private ArrayList<String> linkList;
 
 	public Webpage(String url) {
@@ -81,8 +84,9 @@ public class Webpage {
 	}
 	public void removeTags() throws IOException{
 		setHtml();
+		text = javascriptPattern.matcher(getHtml()).replaceAll(""); 
+		text = htmlPattern.matcher(text).replaceAll(""); 
 		
-		text = getHtml().replaceAll("<.*?>","");
 		
 	}
 	public void removeMessi() throws IOException{

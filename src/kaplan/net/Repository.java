@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.io.FileUtils;
 
 public class Repository {
-	private File file;
+	
 	private File directory;
 
 	public Repository(File directory) {
@@ -30,32 +30,26 @@ public class Repository {
 		this.directory = directory;
 	}
 
-	public File getFile() {
-		return file;
-	}
 
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	public void encryptBytes(Webpage webpage) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+	public File md5Bytes(Webpage webpage) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 		byte[] bytesOfMessage = webpage.getUrl().getBytes("UTF-8");
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		byte[] thedigest = md.digest(bytesOfMessage);
 		BigInteger bigInt = new BigInteger(1, thedigest);
 		String filer = bigInt.toString(16);
-		setFile(new File(getDirectory() + "/" + filer + ".txt"));
+		File file = new File(getDirectory() + "/" + filer + ".txt");
+		return file;
 	}
 	public boolean isCached(Webpage webpage)
 			throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		encryptBytes(webpage);
+		File file = md5Bytes(webpage);
 		return file.exists();
 	}
 
 	public void save(Webpage webpage) throws IOException,
 			NoSuchAlgorithmException {
-		encryptBytes(webpage);
-		BufferedWriter out = new BufferedWriter(new FileWriter(getFile()));
+		File file = md5Bytes(webpage);
+		BufferedWriter out = new BufferedWriter(new FileWriter(file));
 		webpage.removeTags();
 		out.write(webpage.getText());
 		out.close();
@@ -80,7 +74,7 @@ public class Repository {
 			System.out.println(line);
 		}
 		in.close();
-		setFile(new File(getDirectory() + "/" + filer + ".txt"));
-		return getFile();
+		File file = new File(getDirectory() + "/" + filer + ".txt");
+		return file;
 	}
 }

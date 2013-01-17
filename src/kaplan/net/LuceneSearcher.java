@@ -1,5 +1,6 @@
 package kaplan.net;
 
+
 import java.io.File;
 import java.io.FileReader;
 
@@ -9,6 +10,9 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -29,20 +33,24 @@ public class LuceneSearcher {
 
 	private Analyzer analyzer;
 	private Directory indexDir;
+	public static final String INDEX_DIRECTORY = "indexDirectory";
 	public static void main(String[] args) throws IOException, ParseException {
-		File indexDir = new File("/indexDirectory");
-		File dataDir = new File("/tmp");
+		File indexDir = new File("indexDirectory");
+		File dataDir = new File("tmp");
+		Directory index = new RAMDirectory();
 		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
 		LuceneSearcher lucy = new LuceneSearcher();
 		lucy.setAnalyzer(analyzer);
-		lucy.createIndex(indexDir,dataDir,lucy.getAnalyzer());
+		lucy.createIndex(index,dataDir,lucy.getAnalyzer());
+		
+		lucy.setDirectory(index);
 		lucy.searchIndex("Messi");
 	}
 	public Analyzer getAnalyzer(){
 		return analyzer;
 	}
 	public void setAnalyzer(Analyzer analyzer){
-		analyzer = new StandardAnalyzer(Version.LUCENE_40);
+		this.analyzer = new StandardAnalyzer(Version.LUCENE_40);
 	}
 	public Directory getDirectory(){
 		return indexDir;
@@ -61,8 +69,8 @@ public class LuceneSearcher {
 		File[] files = dataDir.listFiles();
 		for (File file: files){
 			Document document  = new Document();
-			document.add(new Field("path",file.getCanonicalPath(),Field.Store.YES,Field.Index.ANALYZED));
-			document.add(new Field("contents",new FileReader(file)));
+			document.add(new TextField("path",file.getCanonicalPath(),Field.Store.YES));
+			document.add(new Field("contents",new FileReader(file),new FieldType()));
 			indexWriter.addDocument(document);
 			
 		}

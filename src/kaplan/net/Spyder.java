@@ -25,16 +25,11 @@ public class Spyder {
 		linkList.clear();
 		String url = "http://en.wikipedia.org/wiki/Lionel_Messi";
 		linkList.add(url);
-		WorkerThread wt = new WorkerThread(rp,linkList);
-		WorkerThread wt2 = new WorkerThread(rp, linkList);
-		WorkerThread wt3 = new WorkerThread(rp, linkList);
-		
-		
-		
-		wt.start();
-		wt2.start();
-		wt3.start();
+		WorkerThread wt;
+		for(int i = 0; i <20;i++){
+		 wt = new WorkerThread(rp,linkList);
+		 wt.start();
 
 	}
-
+	}
 }
